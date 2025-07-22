@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <h2>Listado de Universidades</h2>
+  <table class="table table-bordered table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>País</th>
+        <th>Teaching</th>
+        <th>Research</th>
+        <th>Citations</th>
+        <th>Industry Income</th>
+        <th>International</th>
+        <th>Overall Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let uni of universidades">
+        <td>{{ uni.nombre }}</td>
+        <td>{{ uni.pais }}</td>
+        <td>{{ uni.teaching }}</td>
+        <td>{{ uni.research }}</td>
+        <td>{{ uni.citations }}</td>
+        <td>{{ uni.industryIncome }}</td>
+        <td>{{ uni.international }}</td>
+        <td>{{ uni.overallScore }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

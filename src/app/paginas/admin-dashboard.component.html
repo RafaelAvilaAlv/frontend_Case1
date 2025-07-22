@@ -1,0 +1,16 @@
+<div class="admin-container">
+  <h1>Bienvenido, administrador</h1>
+  <p *ngIf="nombreAdmin">Has iniciado sesión como: <strong>{{ nombreAdmin }}</strong></p>
+
+  <div class="acciones d-grid gap-2 col-6 mx-auto mt-4">
+    <a class="btn btn-primary" routerLink="/admin/csv-universidades">Ver universidades (CSV)</a>
+    <a class="btn btn-primary" routerLink="/admin/gestionar-universidades">Gestionar Universidades</a>
+    
+
+
+   <!-- ✅ Esto sí funciona -->
+<a class="btn btn-primary btn-block" routerLink="/admin/usuarios">Ver Usuarios</a>
+
+   <button class="btn btn-secondary" (click)="cerrarSesion()">Cerrar Sesión</button>
+  </div>
+</div>

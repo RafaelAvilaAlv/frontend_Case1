@@ -1,0 +1,16 @@
+<h2 class="mb-3">📄 Universidades desde CSV (solo lectura)</h2>
+
+<table class="table table-bordered table-sm" *ngIf="universidadesDesdeCSV.length > 0">
+  <thead class="table-light">
+    <tr>
+      <th *ngFor="let col of columnas">{{ col }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let uni of universidadesDesdeCSV">
+      <td *ngFor="let col of columnas">{{ uni[col] }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="universidadesDesdeCSV.length === 0">Cargando datos desde CSV...</p>

@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 
+
+import { jwtDecode } from 'jwt-decode';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,17 +29,24 @@ export class AuthService {
   }
 
   login(credenciales: any): Observable<any> {
-    return this.http.post('http://localhost:8080/api/auth/login', credenciales).pipe(
-      tap((respuesta: any) => {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('token', respuesta.token);
-          localStorage.setItem('rol', respuesta.rol);
-        }
-        this.tokenSubject.next(respuesta.token);
-        this.rolSubject.next(respuesta.rol);
-      })
-    );
-  }
+  return this.http.post('http://localhost:8080/api/auth/login', credenciales).pipe(
+    tap((respuesta: any) => {
+      const decoded: any = jwtDecode(respuesta.token);
+      const rolOriginal = decoded.rol; // ← contiene "ROLE_ADMIN"
+
+      // Si quieres guardar solo "ADMIN" para mostrar o comparar más fácil
+      const rolSimple = rolOriginal?.startsWith('ROLE_') ? rolOriginal.substring(5) : rolOriginal;
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', respuesta.token);
+        localStorage.setItem('rol', rolSimple); // ← ahora guarda solo "ADMIN"
+      }
+
+      this.tokenSubject.next(respuesta.token);
+      this.rolSubject.next(rolSimple);
+    })
+  );
+}
 
   guardarToken(token: string): void {
     this.tokenSubject.next(token);

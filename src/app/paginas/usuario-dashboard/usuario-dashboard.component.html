@@ -39,6 +39,33 @@
     </form>
   </fieldset>
 
+  <!-- Sección: Preguntas rápidas -->
+  <fieldset class="border p-3 rounded mt-5">
+    <legend class="float-none w-auto px-3">🔍 Consulta rápida por pregunta</legend>
+
+    <div class="input-group mb-3">
+      <select class="form-select" [(ngModel)]="preguntaSeleccionada" name="pregunta">
+        <option value="" disabled selected>Selecciona una pregunta</option>
+        <option *ngFor="let pregunta of preguntasDisponibles" [value]="pregunta">{{ pregunta }}</option>
+      </select>
+      <button class="btn btn-primary" (click)="enviarPregunta()">Consultar</button>
+    </div>
+
+    <div *ngIf="respuestaPregunta && respuestaPregunta.length > 0" class="alert alert-secondary">
+      <h6>🏆 Resultado de la consulta:</h6>
+      <ul>
+        <li *ngFor="let uni of respuestaPregunta">
+          <strong>{{ uni.Institution_Name }}</strong> ({{ uni.Location }}) - Puntaje: {{ uni.Overall_Score || 'N/A' }}
+        </li>
+      </ul>
+    </div>
+  </fieldset>
+
+  <!-- Botón de cierre de sesión -->
+  <div class="mt-3">
+    <button class="btn btn-secondary" (click)="cerrarSesion()">Cerrar Sesión</button>
+  </div>
+
   <!-- Resultado de predicción -->
   <div *ngIf="resultado !== null" class="card mt-4 p-3 text-white" [ngClass]="obtenerColorResultado()">
     <h5 class="mb-0">🎯 Resultado de la predicción:</h5>
@@ -71,28 +98,6 @@
       <li *ngFor="let uni of universidadesComparables">{{ uni }}</li>
     </ul>
   </div>
-
-  <!-- Sección: Preguntas rápidas -->
-  <fieldset class="border p-3 rounded mt-5">
-    <legend class="float-none w-auto px-3">🔍 Consulta rápida por pregunta</legend>
-
-    <div class="input-group mb-3">
-      <select class="form-select" [(ngModel)]="preguntaSeleccionada" name="pregunta">
-        <option value="" disabled selected>Selecciona una pregunta</option>
-        <option *ngFor="let pregunta of preguntasDisponibles" [value]="pregunta">{{ pregunta }}</option>
-      </select>
-      <button class="btn btn-primary" (click)="enviarPregunta()">Consultar</button>
-    </div>
-
-    <div *ngIf="respuestaPregunta && respuestaPregunta.length > 0" class="alert alert-secondary">
-      <h6>🏆 Resultado de la consulta:</h6>
-      <ul>
-        <li *ngFor="let uni of respuestaPregunta">
-          <strong>{{ uni.Institution_Name }}</strong> ({{ uni.Location }}) - Puntaje: {{ uni.Overall_Score || 'N/A' }}
-        </li>
-      </ul>
-    </div>
-  </fieldset>
 
   <!-- Error -->
   <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>

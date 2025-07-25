@@ -1,16 +1,17 @@
-<div class="admin-container">
-  <h1>Bienvenido, administrador</h1>
-  <p *ngIf="nombreAdmin">Has iniciado sesión como: <strong>{{ nombreAdmin }}</strong></p>
+<div class="admin-container container mt-5 p-4 bg-light rounded shadow">
+  <div class="text-center">
+    <h2 class="mb-3">👨‍💼 Bienvenido, administrador</h2>
+    <p *ngIf="nombreAdmin" class="lead">Has iniciado sesión como: <strong>{{ nombreAdmin }}</strong></p>
+  </div>
 
-  <div class="acciones d-grid gap-2 col-6 mx-auto mt-4">
-    <a class="btn btn-primary" routerLink="/admin/csv-universidades">Ver universidades (CSV)</a>
-    <a class="btn btn-primary" routerLink="/admin/gestionar-universidades">Gestionar Universidades</a>
-    
-
-
-   <!-- ✅ Esto sí funciona -->
-<a class="btn btn-primary btn-block" routerLink="/admin/usuarios">Ver Usuarios</a>
-
-   <button class="btn btn-secondary" (click)="cerrarSesion()">Cerrar Sesión</button>
+  <div class="d-flex justify-content-center mt-4">
+    <div class="w-100" style="max-width: 400px;">
+      <div class="d-grid gap-3">
+        <a class="btn btn-primary btn-lg" routerLink="/admin/csv-universidades">📄 Ver universidades (CSV)</a>
+        <a class="btn btn-primary btn-lg" routerLink="/admin/gestionar-universidades">🏫 Gestionar Universidades</a>
+        <a class="btn btn-primary btn-lg" routerLink="/admin/usuarios">👥 Ver Usuarios</a>
+        <button class="btn btn-outline-secondary btn-lg" (click)="cerrarSesion()">🚪 Cerrar Sesión</button>
+      </div>
+    </div>
   </div>
 </div>

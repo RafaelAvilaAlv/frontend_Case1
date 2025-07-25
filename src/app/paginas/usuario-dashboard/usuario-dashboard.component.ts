@@ -1,9 +1,16 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts'; // ✅ Importar módulo de gráficos
 import Chart from 'chart.js/auto';
+
+import { environment } from '../../../environments/environment';
+
+
+
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario-dashboard',
@@ -54,32 +61,38 @@ export class UsuarioDashboardComponent {
     }
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   predecir() {
   this.error = '';
   this.resultado = null;
 
-  this.http.post<any>('http://localhost:8080/api/universidad/prediccion', this.datos)
-    .subscribe({
-      next: (res) => {
-        this.resultado = res.puntaje_estimado;
-        this.evaluacion = res.evaluacion;
-        this.percentil = res.percentil;
-        this.universidadesComparables = res.universidades_comparables;
-        this.universidadSimilar = res.universidad_similar;
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
 
-        this.chartData = [
-          { data: [this.resultado ?? 0], label: 'Predicción' }
-        ];
+  this.http.post<any>(`${environment.universidadApi}/prediccion`, this.datos, { headers }).subscribe({
+    next: (res) => {
+      this.resultado = res.puntaje_estimado;
+      this.evaluacion = res.evaluacion;
+      this.percentil = res.percentil;
+      this.universidadesComparables = res.universidades_comparables;
+      this.universidadSimilar = res.universidad_similar;
 
-        this.dibujarGrafico();
-      },
-      error: (err) => {
-        this.error = err?.error?.detalle || 'Ocurrió un error en la predicción.';
-      }
-    });
+      this.chartData = [
+        { data: [this.resultado ?? 0], label: 'Predicción' }
+      ];
+
+      this.dibujarGrafico();
+    },
+    error: (err) => {
+      console.error('Error en la predicción:', err);
+      this.error = err?.error?.detalle || 'Ocurrió un error en la predicción.';
+    }
+  });
 }
+
 
 
   dibujarGrafico() {
@@ -132,7 +145,12 @@ export class UsuarioDashboardComponent {
 
 
 
-
+    cerrarSesion(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('correo');
+    this.router.navigate(['/login']);
+  }
   
 
   // ================== 👇 LÓGICA DE PREGUNTAS AÑADIDA 👇 ==================
@@ -152,15 +170,22 @@ export class UsuarioDashboardComponent {
   ];
 
   enviarPregunta(): void {
-    if (!this.preguntaSeleccionada.trim()) return;
+  if (!this.preguntaSeleccionada.trim()) return;
 
-    this.http.post<any[]>('http://localhost:8080/api/universidad/preguntas', { pregunta: this.preguntaSeleccionada }).subscribe({
-      next: (respuesta) => {
-        this.respuestaPregunta = respuesta;
-      },
-      error: (err) => {
-        console.error('Error al enviar pregunta:', err);
-      }
-    });
-  }
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  this.http.post<any[]>(`${environment.universidadApi}/preguntas`, { pregunta: this.preguntaSeleccionada }, { headers }).subscribe({
+    next: (respuesta) => {
+      this.respuestaPregunta = respuesta;
+    },
+    error: (err) => {
+      console.error('Error al enviar pregunta:', err);
+      this.error = err?.error?.detalle || 'Ocurrió un error al consultar la pregunta.';
+    }
+  });
+}
+
 }

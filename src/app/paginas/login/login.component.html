@@ -1,0 +1,43 @@
+<div class="login-container">
+  <h2>Iniciar Sesión</h2>
+
+  <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
+    <!-- Campo de correo -->
+    <div class="form-group">
+      <label for="correo">Correo:</label>
+      <input
+        id="correo"
+        type="email"
+        formControlName="correo"
+        placeholder="ejemplo@correo.com"
+        required
+      />
+    </div>
+
+    <!-- Campo de contraseña -->
+    <div class="form-group">
+      <label for="contrasena">Contraseña:</label>
+      <input
+        id="contrasena"
+        type="password"
+        formControlName="contrasena"
+        placeholder="Tu contraseña"
+        required
+      />
+    </div>
+
+    <!-- Botón de ingreso -->
+    <button type="submit" [disabled]="formularioLogin.invalid">
+      Ingresar
+    </button>
+
+    <!-- Enlace a registro -->
+    <p class="registro-text">
+      ¿No tienes cuenta?
+      <a [routerLink]="['/registro']">Regístrate aquí</a>
+    </p>
+  </form>
+  
+  <!-- Mensaje de error -->
+  <p *ngIf="mensajeError" class="error">{{ mensajeError }}</p>
+</div>

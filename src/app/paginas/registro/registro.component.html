@@ -1,0 +1,44 @@
+<div class="registro-wrapper">
+  <div class="registro-card">
+    <h2>Registro</h2>
+    <form [formGroup]="formularioRegistro" (ngSubmit)="registrar()">
+
+      <div class="form-group">
+        <label for="nombreUsuario">Nombre de Usuario:</label>
+        <input id="nombreUsuario" type="text" formControlName="nombreUsuario" />
+        <small *ngIf="formularioRegistro.get('nombreUsuario')?.invalid && formularioRegistro.get('nombreUsuario')?.touched">
+          El nombre de usuario es obligatorio.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo:</label>
+        <input id="correo" type="email" formControlName="correo" />
+        <small *ngIf="formularioRegistro.get('correo')?.invalid && formularioRegistro.get('correo')?.touched">
+          El correo es obligatorio y debe tener formato válido.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="clave">Contraseña:</label>
+        <input id="clave" type="password" formControlName="clave" />
+        <small *ngIf="formularioRegistro.get('clave')?.invalid && formularioRegistro.get('clave')?.touched">
+          La contraseña es obligatoria.
+        </small>
+        <small *ngIf="formularioRegistro.get('clave')?.errors?.['pattern']">
+          La contraseña debe tener al menos 6 caracteres, una letra y un número.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmarClave">Confirmar Contraseña:</label>
+        <input id="confirmarClave" type="password" formControlName="confirmarClave" />
+        <small *ngIf="formularioRegistro.hasError('clavesDiferentes') && formularioRegistro.get('confirmarClave')?.touched">
+          Las contraseñas no coinciden.
+        </small>
+      </div>
+
+      <button type="submit" [disabled]="formularioRegistro.invalid">Registrar</button>
+    </form>
+  </div>
+</div>

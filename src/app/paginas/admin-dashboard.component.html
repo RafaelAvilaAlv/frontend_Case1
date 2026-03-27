@@ -1,0 +1,32 @@
+<div class="container d-flex justify-content-center mt-5">
+  <div class="admin-card">
+
+<div class="container d-flex justify-content-center mt-5">
+  <div class="bg-white p-4 rounded shadow-lg border" style="width: 100%; max-width: 500px;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-dark mb-2">👨‍💼 Bienvenido, administrador</h2>
+      <p *ngIf="nombreAdmin" class="text-muted mb-0">
+        Has iniciado sesión como: <strong class="text-primary">{{ nombreAdmin }}</strong>
+      </p>
+    </div>
+
+    <!-- Botones normales -->
+    <div class="d-grid gap-2">
+      <a class="btn btn-primary py-2" routerLink="/admin/csv-universidades">
+        📄 Ver universidades (CSV)
+      </a>
+      <a class="btn btn-success py-2" routerLink="/admin/gestionar-universidades">
+        🏫 Gestionar Universidades
+      </a>
+      <a class="btn btn-info py-2 text-white" routerLink="/admin/usuarios">
+        👥 Ver Usuarios
+      </a>
+      <button class="btn btn-danger py-2" (click)="cerrarSesion()">
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+</div>
+
+ </div>
+</div>
